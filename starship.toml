@@ -1,0 +1,17 @@
+format = '$os$time$directory$all'
+
+[time]
+style = 'blue'
+format = '\[[$time]($style)\] '
+disabled = false
+
+[directory]
+truncation_length = 10
+truncate_to_repo = false
+
+[character]
+success_symbol = '🍊'
+error_symbol = '🍉'
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
