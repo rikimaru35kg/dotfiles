@@ -27,11 +27,11 @@ config.harfbuzz_features = {
   "clig=0",  -- contextual ligatures off
 }
 
--- terminal size
+-- 背景
+-- config.window_background_opacity = 0.7
 config.initial_cols = 180
 config.initial_rows = 50
 
--- 背景
 config.background = {
     {
         source = { File = "C:/Users/admin/dotfiles/forest.png" },
