@@ -22,6 +22,11 @@ function c() {
   fi
 }
 
+# history
+HISTSIZE=100000
+bind '"\C-n": history-search-forward'
+bind '"\C-p": history-search-backward'
+
 # python interactive
 [ -f "$HOME/.pythonrc.py" ] && export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
