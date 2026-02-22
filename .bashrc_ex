@@ -1,0 +1,45 @@
+# my aliases & functions
+alias ll='ls -alhF'
+alias rm='rm -i'
+alias ps='ps aux'
+alias neo='neofetch --ascii_distro windows'
+alias ga='git add -A'
+alias gc='git commit -m'
+alias gp='git push'
+alias bat='batcat'
+alias tmuxk='tmux kill-session -t'
+alias tmuxa='tmux a -t'
+alias tig='tig --all'
+function c() {
+  # 入力源（ファイル or 標準入力）を決める
+  local src="${1:-/dev/stdin}"
+  if command -v clip.exe >/dev/null 2>&1; then
+    # clip.exe は UTF-16LE が最も安定
+    iconv -t utf-16le -- "$src" | clip.exe
+  else
+    echo "clip.exe not found. copy skipped." >&2
+    return 1
+  fi
+}
+
+# python interactive
+[ -f "$HOME/.pythonrc.py" ] && export PYTHONSTARTUP="$HOME/.pythonrc.py"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+fi
+
+# poetry
+export PATH="$HOME/.local/bin:$PATH"
+
+# starship
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+# locale
+export LANG="ja_JP.UTF-8"
+export LC_CTYPE="ja_JP.UTF-8"
+

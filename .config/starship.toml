@@ -1,7 +1,23 @@
 format = '$os$time$directory$all'
 
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[os]
+disabled = false
+format = '[$symbol]($style) '
+style = "cyan"
+
+[os.symbols]
+Ubuntu = 'U'
+Windows = 'W'
+Debian = 'D'
+
 [time]
-style = 'blue'
+style = 'gray'
 format = '\[[$time]($style)\] '
 disabled = false
 
