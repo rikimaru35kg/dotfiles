@@ -5,7 +5,19 @@ return {
     dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio",
-      { "theHamsta/nvim-dap-virtual-text", opts = {} },
+    },
+    keys = {
+      { "<F9>",  function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+      { "<F5>",  function() require("dap").continue() end, desc = "DAP Continue" },
+      { "<F10>", function() require("dap").step_over() end, desc = "DAP StepOver" },
+      { "<F11>", function() require("dap").step_into() end, desc = "DAP StepInto" },
+      { "<F12>", function() require("dap").step_out() end, desc = "DAP StepOut" },
+      { "<F6>", function()
+          require("dap").terminate()
+          require("dap").disconnect()
+          require("dapui").close()
+        end, desc = "DAP Terminate"
+      },
     },
     config = function()
       local dap = require("dap")
@@ -17,8 +29,6 @@ return {
       dap.adapters.codelldb = {
         type = "executable",
         command = "codelldb", -- PATH にある場合はこれでOK
-        -- もし動かない場合はフルパス指定:
-        -- command = vim.fn.expand("~/.local/bin/extension/adapter/codelldb"),
       }
 
       ---------------------------------------------------------
@@ -42,11 +52,11 @@ return {
       -- ★ DAP UI の設定
       ---------------------------------------------------------
       dapui.setup()
-      vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, {desc="Toggle Breakpoint"})
-      vim.keymap.set("n", "<F5>", function() require("dap").continue() end, {desc="DAP Continue"})
-      vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, {desc="DAP StepOver"})
-      vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, {desc="DAP StepInto"})
-      vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, {desc="DAP StepOut"})
+      -- vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, {desc="Toggle Breakpoint"})
+      -- vim.keymap.set("n", "<F5>", function() require("dap").continue() end, {desc="DAP Continue"})
+      -- vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, {desc="DAP StepOver"})
+      -- vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, {desc="DAP StepInto"})
+      -- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, {desc="DAP StepOut"})
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
