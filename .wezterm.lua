@@ -27,26 +27,16 @@ config.harfbuzz_features = {
   "clig=0",  -- contextual ligatures off
 }
 
--- 背景
-config.window_background_opacity = 1.0
+-- terminal size
 config.initial_cols = 180
 config.initial_rows = 50
 
-config.window_background_gradient = {
-        orientation = { Linear = { angle = -50.0 } },
-        colors = {
-                "#0f0c29",
-                "#282a36",
-                "#343746",
-                "#3a3f52",
-                "#343746",
-                "#282a36",
-        },
-        interpolation = "Linear",
-        blend = "Rgb",
-        noise = 64,
-        segment_size = 11,
-        segment_smoothness = 1.0,
+-- 背景
+config.background = {
+    {
+        source = { File = "C:/Users/admin/dotfiles/forest.png" },
+        opacity = 1.0,
+    },
 }
 
 return config
