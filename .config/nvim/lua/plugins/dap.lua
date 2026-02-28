@@ -4,6 +4,7 @@ return {
     "rcarriga/nvim-dap-ui",
     dependencies = {
       "mfussenegger/nvim-dap",
+      "mfussenegger/nvim-dap-python",
       "nvim-neotest/nvim-nio",
     },
     keys = {
@@ -47,6 +48,13 @@ return {
         },
       }
       dap.configurations.c = dap.configurations.cpp
+
+      ---------------------------------------------------------
+      -- ★ Python デバッガ（nvim-dap-python）
+      ---------------------------------------------------------
+      -- venv優先: exepath("python") は PATHで最初に見つかったpythonを使う（.venv/binが先ならそれ）
+      local python = vim.fn.exepath("python") ~= "" and vim.fn.exepath("python") or "python3"
+      require("dap-python").setup(python)
 
       ---------------------------------------------------------
       -- ★ DAP UI の設定

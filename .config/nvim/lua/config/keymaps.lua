@@ -30,3 +30,7 @@ end, { desc = "Delete buffer (keep window)" })
 vim.keymap.set({ "n", "v" }, "x", '"_x', { noremap = true, silent = true, desc = "Delete char (no clipboard)" })
 vim.keymap.set("n", "X", '"_X', { noremap = true, silent = true, desc = "Delete char before cursor (no clipboard)" })
 
+vim.keymap.set("n", "<F2>", function()
+  vim.diagnostic.open_float()
+end, { desc = "Show diagnostics (float)" })
+

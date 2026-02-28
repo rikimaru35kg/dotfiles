@@ -30,11 +30,12 @@ config.harfbuzz_features = {
 -- 背景
 -- config.window_background_opacity = 0.7
 config.initial_cols = 180
-config.initial_rows = 50
+config.initial_rows = 40
 
+home = os.getenv("HOME") or os.getenv("USERPROFILE")
 config.background = {
     {
-        source = { File = "C:/Users/admin/dotfiles/forest.png" },
+        source = { File = home .. "/dotfiles/forest.png" },
         opacity = 1.0,
     },
 }

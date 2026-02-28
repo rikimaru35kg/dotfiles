@@ -2,23 +2,45 @@
 alias ll='ls -alhF'
 alias rm='rm -i'
 alias ps='ps aux'
-alias neo='neofetch --ascii_distro windows'
 alias ga='git add -A'
 alias gc='git commit -m'
 alias gp='git push'
+alias lsblk='lsblk -o NAME,SIZE,FSUSED,FSUSE%,TYPE,FSTYPE,MOUNTPOINTS,VENDOR,MODEL,UUID'
 alias bat='batcat'
 alias tmuxk='tmux kill-session -t'
 alias tmuxa='tmux a -t'
 alias tig='tig --all'
 function c() {
-  # 入力源（ファイル or 標準入力）を決める
-  local src="${1:-/dev/stdin}"
-  if command -v clip.exe >/dev/null 2>&1; then
+  if command -v win32yank.exe >/dev/null 2>&1; then
+    win32yank.exe -i --crlf < "$1"
+  elif command -v clip.exe >/dev/null 2>&1; then
     # clip.exe は UTF-16LE が最も安定
-    iconv -t utf-16le -- "$src" | clip.exe
+    iconv -t utf-16le -- "$1" | clip.exe
   else
-    echo "clip.exe not found. copy skipped." >&2
+    echo "Neither win32yank.exe nor clip.exe not found. Copy skipped." >&2
     return 1
+  fi
+}
+function smount() {
+  local src="$1" dst="$2" fstype
+  # 引数不足エラー
+  if [[ -z "$src" || -z "$dst" ]]; then
+    echo "Please use like this: smount <device> <mountpoint>" >&2
+    return 1
+  fi
+  # FS確認
+  fstype="$(lsblk -no FSTYPE "$src" 2>/dev/null | head -n1)"
+  if [[ -z "$fstype" ]]; then
+    echo "Invalid filesystem type for $src" >&2
+    return 1
+  fi
+  # マウントポイント作成
+  sudo mkdir -p "$dst"
+  # FSがvfat/exfatの場合は最強権限でmount
+  if [[ $fstype == vfat || $fstype == exfat ]]; then
+    sudo mount -o uid=1000,gid=1000,fmask=000,dmask=000 "$src" "$dst"
+  else
+    sudo mount "$src" "$dst"
   fi
 }
 
@@ -47,4 +69,16 @@ command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
 # locale
 export LANG="ja_JP.UTF-8"
 export LC_CTYPE="ja_JP.UTF-8"
+
+# Alias for g++ programming
+alias g='g++ -std=gnu++2b -O2 -D_GLIBCXX_DEBUG -Wall -Wextra -I"$HOME/lib/ac-library" -D__DEBUG'
+alias gd='g++ -std=gnu++2b -O2 -D_GLIBCXX_DEBUG -Wall -Wextra -I"$HOME/lib/ac-library" -D__DEBUG -D__DEBUG_VECTOR'
+alias gno='g++ -std=gnu++2b -O2 -I/opt/ac-library'
+alias a='./a.out'
+alias abc='python3 gen_abc_file.py'
+alias e='win32yank.exe -o --lf > in; echo ==== input ====; cat in; echo ==== output ===; a < in'
+alias ee='e 2>/dev/null'
+alias b='python3 get_binary_number.py'
+alias digit='py gen_calc_num_digit.py'
+alias fact='py gen_factorial.py'
 
