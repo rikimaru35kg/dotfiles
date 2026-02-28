@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# [CAUTION] READ .bashrc_ex BEFOREHAND!!
-
 mkdir -p $HOME/.config
 
 # setting files and directories
