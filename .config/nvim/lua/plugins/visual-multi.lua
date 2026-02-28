@@ -2,7 +2,7 @@ return {
   "mg979/vim-visual-multi",
   branch = "master",
   init = function()
-    -- <C-d> for selecting words like vscod3
+    -- <C-d> for selecting words like vscode
     vim.g.VM_default_mappings = 0
     vim.g.VM_maps = {
       ["Find Under"] = "<C-d>", -- VS Code の Ctrl-D と同じ動作

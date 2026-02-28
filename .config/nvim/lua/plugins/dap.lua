@@ -25,7 +25,7 @@ return {
       local dapui = require("dapui")
 
       ---------------------------------------------------------
-      -- ★ codelldb アダプタ設定（WSL2 用）
+      -- ★ codelldb アダプタ設定
       ---------------------------------------------------------
       dap.adapters.codelldb = {
         type = "executable",
