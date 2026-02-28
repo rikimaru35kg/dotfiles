@@ -80,6 +80,7 @@ nnoremap X "_X
 xnoremap X "_X
 " multiselect
 nmap <C-d> <C-n>
+vmap <C-d> <C-n>
 " ctrl+t -> NERTTree
 nnoremap <leader>e :NERDTreeFocus<CR>
 " open terminal
