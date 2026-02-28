@@ -60,11 +60,6 @@ return {
       -- ★ DAP UI の設定
       ---------------------------------------------------------
       dapui.setup()
-      -- vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, {desc="Toggle Breakpoint"})
-      -- vim.keymap.set("n", "<F5>", function() require("dap").continue() end, {desc="DAP Continue"})
-      -- vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, {desc="DAP StepOver"})
-      -- vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, {desc="DAP StepInto"})
-      -- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, {desc="DAP StepOut"})
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
