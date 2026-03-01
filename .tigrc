@@ -4,4 +4,7 @@ set refresh-mode = periodic
 set refresh-interval = 1
 
 set main-view = id date author commit-title:graph=yes,refs=yes
+set main-view-date-local = true
+set main-view-date = custom
+set main-view-date-format = "%Y-%m-%d %H:%M"
 

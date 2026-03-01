@@ -4,7 +4,7 @@ set -euo pipefail
 mkdir -p $HOME/.config
 
 # setting files and directories
-settings=(.pythonrc.py .tmux.conf .vimrc .config/starship.toml .config/bat .config/nvim)
+settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/bat .config/nvim)
 
 for setting in "${settings[@]}"; do
   src="$HOME/dotfiles/$setting"  # real file
