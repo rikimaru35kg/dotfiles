@@ -1,0 +1,7 @@
+set ignore-case = true
+set mouse = true
+set refresh-mode = periodic
+set refresh-interval = 1
+
+set main-view = id date author commit-title:graph=yes,refs=yes
+
