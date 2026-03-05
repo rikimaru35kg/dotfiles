@@ -2,7 +2,7 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 config.automatically_reload_config = true
-config.font_size = 12
+config.font_size = 13
 config.font = wezterm.font_with_fallback({
  "PlemolJP Console NF",
  "Segoe UI Emoji",      -- Windows 標準のカラー絵文字にフォールバック
