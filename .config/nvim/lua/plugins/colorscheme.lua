@@ -15,17 +15,24 @@ return {
     priority = 1000, -- ほかより先にロード（重要）
     opts = {
       -- 好きなスタイル: "storm" / "night" / "moon" / "day"
-      style = "moon",
+      style = "night",
 
       -- ★ 背景透過（公式オプション）
       transparent = true,
 
       -- ★ テーマ適用直前にハイライトを上書きする公式のやり方
       on_highlights = function(hl, c)
-        -- コメントだけ「落ち着いた明るめの緑」
+        -- コメント「落ち着いた明るめの緑」
         hl.Comment     = { fg = "#88cc88", italic = false }
 
-        -- 浮動ウィンドウも完全透過にしたい場合
+        -- 数字を黄緑に
+        hl.Number = { fg = "#1fe309"}
+
+        -- ★関数引数（オレンジ → 黄色寄り）
+        hl["@parameter"] = { fg = "#e6c384" }
+        hl["@variable.parameter"] = { fg = "#e6c384" }
+
+        -- 透過
         hl.Normal      = { bg = "NONE" }
         hl.NormalFloat = { bg = "NONE" }
         hl.FloatBorder = { bg = "NONE" }
