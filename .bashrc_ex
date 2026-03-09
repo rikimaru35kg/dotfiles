@@ -7,8 +7,11 @@ alias gc='git commit -m'
 alias gp='git push'
 alias lsblk='lsblk -o NAME,SIZE,FSUSED,FSUSE%,TYPE,FSTYPE,MOUNTPOINTS,VENDOR,MODEL,UUID'
 alias bat='batcat'
-alias tmuxk='tmux kill-session -t'
-alias tmuxa='tmux a -t'
+alias tls='tmux ls'
+alias tn='tmux new-session -s'
+alias ta='tmux a -t'
+alias tk='tmux kill-session -t'
+alias tkill='tmux kill-server'
 alias tig='tig --all'
 function c() {
   if command -v win32yank.exe >/dev/null 2>&1; then

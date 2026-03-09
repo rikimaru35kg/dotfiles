@@ -32,8 +32,6 @@ nnoremap j gj
 nnoremap k gk
 " シンタックスハイライトの有効化
 syntax enable
-" txt->sh
-autocmd BufRead,BufNewFile *.txt set filetype=sh
 " background color
 set termguicolors
 highlight Normal guibg=#222222
