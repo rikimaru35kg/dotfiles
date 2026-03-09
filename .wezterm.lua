@@ -35,7 +35,7 @@ config.initial_rows = 40
 home = os.getenv("HOME") or os.getenv("USERPROFILE")
 config.background = {
     {
-        source = { File = home .. "/dotfiles/forest.png" },
+        source = { File = home .. "/dotfiles/pictures/mt_fuji.png" },
         opacity = 1.0,
     },
 }
