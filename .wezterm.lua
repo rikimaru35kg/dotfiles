@@ -30,17 +30,21 @@ config.harfbuzz_features = {
   "clig=0",  -- contextual ligatures off
 }
 
--- colorscheme
-config.color_scheme = "Tokyo Night"
-
 -- initial window size
 config.initial_cols = 120
 config.initial_rows = 30
 
--------------------------------------
+-- colorscheme
+--config.color_scheme = "Tokyo Night"
+--config.color_scheme = "Kanagawa (Gogh)"
+local CS = {
+  wsl = "Tokyo Night",
+  cmd = "Ayu Dark (Gogh)",
+  other = "Kanagawa (Gogh)",
+}
+config.color_scheme = CS.other
+
 -- Background
--------------------------------------
--- paths to background pictures
 home = os.getenv("HOME") or os.getenv("USERPROFILE")
 local BG = {
   wsl = {
@@ -80,8 +84,6 @@ local BG = {
     },
   },
 }
-
--- default background
 config.background = BG.other
 
 -- Make new tab with shell options
@@ -97,22 +99,26 @@ config.launch_menu = {
   { label = 'Command Prompt', args = { 'cmd.exe' } },
 }
 
--- Change the background setting depending on tab-name
+-- Change the window setting depending on tab-name
 local last_title = ""
 wezterm.on("update-status", function(window, pane)
   local title = pane:get_title()
   if title == "Launcher" then return end
+  if title == "Debug" then return end
   if title == "wezterm" then return end
 
   if last_title ~= title then
     last_title = title
     local background = BG.other
-    if title == "wslhost.exe" then
+    local color_scheme = CS.other
+    if title:find("wslhost.exe") then
        background = BG.wsl
-    elseif title == "cmd.exe" then
+       color_scheme = CS.wsl
+    elseif title:find("cmd.exe") then
        background = BG.cmd
+       color_scheme = CS.cmd
     end
-    window:set_config_overrides({ background = background })
+    window:set_config_overrides({ background = background, color_scheme = color_scheme })
   end
 end)
 
