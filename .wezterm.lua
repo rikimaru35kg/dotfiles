@@ -161,23 +161,43 @@ config.keys = {
   },
   {
     key = 'h',
-    mods = 'CTRL|ALT',
+    mods = 'CTRL|SHIFT',
     action = act.ActivatePaneDirection "Left",
   },
   {
     key = 'j',
-    mods = 'CTRL|ALT',
+    mods = 'CTRL|SHIFT',
     action = act.ActivatePaneDirection "Down",
   },
   {
     key = 'k',
-    mods = 'CTRL|ALT',
+    mods = 'CTRL|SHIFT',
     action = act.ActivatePaneDirection "Up",
   },
   {
     key = 'l',
-    mods = 'CTRL|ALT',
+    mods = 'CTRL|SHIFT',
     action = act.ActivatePaneDirection "Right",
+  },
+  {
+    key = 'LeftArrow',
+    mods = 'CTRL|SHIFT',
+    action = act{ AdjustPaneSize = {"Left", 5} },
+  },
+  {
+    key = 'DownArrow',
+    mods = 'CTRL|SHIFT',
+    action = act{ AdjustPaneSize = {"Down", 5} },
+  },
+  {
+    key = 'UpArrow',
+    mods = 'CTRL|SHIFT',
+    action = act{ AdjustPaneSize = {"Up", 5} },
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CTRL|SHIFT',
+    action = act{ AdjustPaneSize = {"Right", 5} },
   },
 }
 
