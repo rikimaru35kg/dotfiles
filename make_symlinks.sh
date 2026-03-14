@@ -20,6 +20,17 @@ for setting in "${settings[@]}"; do
   ln -s "$src" "$dst"
 done
 
+# insert the line of reading .bashrc_ex to .bashrc
+read_bashrc_ex='[ -f "$HOME/dotfiles/.bashrc_ex" ] && source "$HOME/dotfiles/.bashrc_ex"'
+if ! grep -Fxq "$read_bashrc_ex" "$HOME/.bashrc"; then
+  {
+    echo
+    echo "# Read extra bash settings"
+    echo "$read_bashrc_ex"
+    echo
+  } >> "$HOME/.bashrc"
+fi
+
 # make symbolic links to vscode snippets
 read -p "Input your username of Windows: " win_username
 snippets_dirpath="/mnt/c/Users/$win_username/AppData/Roaming/Code/User/snippets"
