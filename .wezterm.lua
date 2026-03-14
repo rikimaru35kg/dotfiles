@@ -181,11 +181,5 @@ config.keys = {
   },
 }
 
--- debug mode
-config.debug_key_events = true
-table.insert(config.keys, {
-    key = "D", mods = "CTRL|SHIFT", action = act.ShowDebugOverlay
-})
-
 return config
 
