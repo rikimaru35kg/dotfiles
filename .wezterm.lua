@@ -43,10 +43,40 @@ config.initial_rows = 30
 home = os.getenv("HOME") or os.getenv("USERPROFILE")
 local BG = {
   wsl = {
-    { source = { File = home .. "/dotfiles/pictures/mt_fuji.png" } },
+    {
+      source = { File = home .. "/dotfiles/pictures/mt_fuji.jpg" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.8,
+      width = "100%",
+      height = "100%",
+    },
+  },
+  cmd = {
+    {
+      source = { File = home .. "/dotfiles/pictures/forest.png" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.0,
+      width = "100%",
+      height = "100%",
+    },
   },
   other = {
-    { source = { File = home .. "/dotfiles/pictures/forest.png" } },
+    {
+      source = { File = home .. "/dotfiles/pictures/snow_tree.jpg" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.8,
+      width = "100%",
+      height = "100%",
+    },
   },
 }
 
@@ -67,16 +97,22 @@ config.launch_menu = {
 }
 
 -- Change the background setting depending on tab-name
+local last_title = ""
 wezterm.on("update-status", function(window, pane)
   local title = pane:get_title()
-  local overrides = window:get_config_overrides() or {}
-  if overrides._last_title ~= title then
-    overrides._last_title = title
-    if title:find("wsl") then
-      window:set_config_overrides({ background = BG.wsl })
-    else
-      window:set_config_overrides({ background = BG.pwsh })
+  wezterm.log_info("TITLE=" .. title)
+  if title == "Launcher" then return end
+  if title == "wezterm" then return end
+
+  if last_title ~= title then
+    last_title = title
+    local background = BG.other
+    if title == "wslhost.exe" then
+       background = BG.wsl
+    elseif title == "cmd.exe" then
+       background = BG.cmd
     end
+    window:set_config_overrides({ background = background })
   end
 end)
 
