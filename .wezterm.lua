@@ -4,6 +4,7 @@ local config = wezterm.config_builder()
 
 config.automatically_reload_config = true
 config.font_size = 13
+config.window_close_confirmation = "NeverPrompt"
 config.font = wezterm.font_with_fallback({
  "PlemolJP Console NF",
  "Segoe UI Emoji",      -- Windows 標準のカラー絵文字にフォールバック
@@ -100,7 +101,6 @@ config.launch_menu = {
 local last_title = ""
 wezterm.on("update-status", function(window, pane)
   local title = pane:get_title()
-  wezterm.log_info("TITLE=" .. title)
   if title == "Launcher" then return end
   if title == "wezterm" then return end
 
@@ -116,12 +116,30 @@ wezterm.on("update-status", function(window, pane)
   end
 end)
 
+wezterm.on("gui-startup", function(cmd)
+  local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():perform_action(
+    act.ShowLauncherArgs { flags = 'LAUNCH_MENU_ITEMS' },
+    pane
+  )
+end)
+
 -- Keymaps
 config.keys = {
   {
     key = 'T',
     mods = 'CTRL|SHIFT',
     action = act.ShowLauncherArgs { flags = 'LAUNCH_MENU_ITEMS' },
+  },
+  {
+    key = 'W',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.CloseCurrentTab { confirm = false },
+  },
+  {
+    key = 'Q',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.CloseCurrentPane { confirm = false },
   },
   {
     key = '[',
