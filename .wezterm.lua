@@ -68,11 +68,15 @@ config.launch_menu = {
 
 -- Change the background setting depending on tab-name
 wezterm.on("update-status", function(window, pane)
-  local domain = pane:get_title()
-  if domain:find("wsl") then
-    window:set_config_overrides({ background = BG.wsl })
-  else
-    window:set_config_overrides({ background = BG.pwsh })
+  local title = pane:get_title()
+  local overrides = window:get_config_overrides() or {}
+  if overrides._last_title ~= title then
+    overrides._last_title = title
+    if title:find("wsl") then
+      window:set_config_overrides({ background = BG.wsl })
+    else
+      window:set_config_overrides({ background = BG.pwsh })
+    end
   end
 end)
 
