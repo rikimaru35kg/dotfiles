@@ -80,7 +80,7 @@ xnoremap X "_X
 nmap <C-d> <C-n>
 vmap <C-d> <C-n>
 " ctrl+t -> NERTTree
-nnoremap <leader>e :NERDTreeFocus<CR>
+nnoremap <leader>e :NERDTreeToggle<CR>
 " open terminal
 nnoremap <leader>t :bel term<CR>
 

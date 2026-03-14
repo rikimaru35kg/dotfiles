@@ -52,9 +52,47 @@ return {
       ---------------------------------------------------------
       -- ★ Python デバッガ（nvim-dap-python）
       ---------------------------------------------------------
-      -- venv優先: exepath("python") は PATHで最初に見つかったpythonを使う（.venv/binが先ならそれ）
-      local python = vim.fn.exepath("python") ~= "" and vim.fn.exepath("python") or "python3"
-      require("dap-python").setup(python)
+      -- ① アダプタ用: Mason の debugpy を使う（仮想環境を汚さない）
+      local mason_debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+      require("dap-python").setup(mason_debugpy)
+
+      -- ② 実行対象用: Poetry の venv Python を自動検出
+      local function get_poetry_python()
+        -- Poetry venv のパスを取得（プロジェクト直下で Neovim を開いている想定）
+        local venv = vim.fn.trim(vim.fn.system("poetry env info --path"))
+        local py = venv .. "/bin/python"               -- Linux/WSL
+        if vim.fn.has("win32") == 1 then
+          py = venv .. "\\Scripts\\python.exe"         -- Windows
+        end
+        if vim.v.shell_error ~= 0 or vim.fn.executable(py) ~= 1 then
+          return nil
+        end
+        return py
+      end
+
+      -- ③ DAP の起動設定で、実行時 Python を Poetry venv にする
+      local dap = require("dap")
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Debug current file (Poetry venv)",
+          program = "${file}",
+          console = "integratedTerminal",  -- 入力が必要なら
+          justMyCode = true,
+          pythonPath = function()
+            local p = get_poetry_python()
+            if p and vim.fn.executable(p) == 1 then
+              return p
+            end
+            if vim.fn.executable("python") == 1 then
+              return "python"
+            end
+            return "python3"
+          end,
+
+        },
+      }
 
       ---------------------------------------------------------
       -- ★ DAP UI の設定

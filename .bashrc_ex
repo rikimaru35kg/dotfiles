@@ -24,6 +24,30 @@ function c() {
     return 1
   fi
 }
+function rmelse() {
+  dir="$1"
+  ptrn="*$2*"
+  # 引数不足エラー
+  if [[ -z "$dir" || -z "$ptrn" ]]; then
+    echo "Please use like this: rmelse <dir> <pattern>" >&2
+    return 1
+  fi
+  # not directory error
+  if [[ ! -d "$dir" ]]; then
+    echo "Please specify a valid directory name." >&2
+    echo "command method: rmelse <dir> <pattern>" >&2
+    return 1
+  fi
+  # execute rm
+  find "$dir" ! -name "$ptrn" -type f
+  read -p "Do you want to delete all the listed files? [Y/n]:" ans
+  if [[ $ans == [nN]* ]]; then
+    echo "rm not executed."
+  else
+    find "$dir" ! -name "$ptrn" -type f -exec rm -rf {} +
+    echo "rm executed."
+  fi
+}
 function smount() {
   local src="$1" dst="$2" fstype
   # 引数不足エラー

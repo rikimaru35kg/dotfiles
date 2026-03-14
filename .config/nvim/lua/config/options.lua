@@ -4,6 +4,7 @@
 
 vim.opt.wrap = true
 vim.opt.relativenumber = false
+vim.opt.scrolloff = 0
 -- LazyVim の format-on-save 全体をオフ (autosaveの場合、trueだと末尾に空行を入れられなくなるのでfalseとする)
 vim.g.autoformat = false
 

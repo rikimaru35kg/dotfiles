@@ -11,3 +11,6 @@ set main-view-date-local = true
 set main-view-date = custom
 set main-view-date-format = "%Y-%m-%d %H:%M"
 
+color cursor black green bold
+color title-focus black cyan bold
+
