@@ -47,7 +47,7 @@ syntax enable
 if has('gui_running')
   set columns=100
   set lines=40
-  set guifont=PlemolJP\ Console\ NF
+  set guifont=PlemolJP\ Console\ NF:h13
   highlight Normal guibg=#222222
 endif
 
