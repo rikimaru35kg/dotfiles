@@ -248,7 +248,22 @@ config.keys = {
   {
     key = 'D',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.ShowDebugOverlay,
+    action = act.ShowDebugOverlay,
+  },
+  {
+    key = '+',
+    mods = 'CTRL|SHIFT',
+    action = act.IncreaseFontSize,
+  },
+  {
+    key = '-',
+    mods = 'CTRL',
+    action = act.DecreaseFontSize,
+  },
+  {
+    key = '0',
+    mods = 'CTRL',
+    action = act.ResetFontSize,
   },
 }
 
