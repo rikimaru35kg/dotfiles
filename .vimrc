@@ -18,13 +18,15 @@ set showcmd
 colorscheme torte
 " for transparent background
 if !has('gui_running')
-  autocmd!
-  autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
-  autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
-  autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
-  autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
-  autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
-  autocmd VimEnter,ColorScheme * highlight EndOfBuffer ctermbg=none
+  augroup Transparent
+    autocmd!
+    autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
+    autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
+    autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
+    autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
+    autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
+    autocmd VimEnter,ColorScheme * highlight EndOfBuffer ctermbg=none
+  augroup end
 endif
 " 行番号を表示
 set number
@@ -58,6 +60,13 @@ set expandtab
 set tabstop=2
 " 行頭でのTab文字の表示幅
 set shiftwidth=2
+set softtabstop=2
+augroup TabByFile
+  autocmd!
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+augroup end
 
 " 検索系
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
