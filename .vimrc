@@ -15,8 +15,7 @@ set hidden
 set showcmd
 
 " 見た目系
-" Colorscheme
-colorscheme murphy
+colorscheme torte
 " for transparent background
 if !has('gui_running')
   autocmd!
