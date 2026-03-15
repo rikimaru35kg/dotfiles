@@ -37,7 +37,7 @@ config.initial_rows = 30
 -- colorscheme
 local CS = {
   wsl = "Tokyo Night",
-  ssh = "Catppucin Mocha",
+  ssh = "Catppuccin Mocha",
   cmd = "Ayu Dark (Gogh)",
   other = "Kanagawa (Gogh)",
 }
