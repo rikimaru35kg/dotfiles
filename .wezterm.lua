@@ -20,7 +20,7 @@ config.window_background_gradient = {
   colors = { "#000000" },
 }
 
--- default shell
+-- default program
 config.default_prog = { "powershell.exe", "-NoLogo" }
 
 -- Ligature OFF
@@ -35,10 +35,9 @@ config.initial_cols = 120
 config.initial_rows = 30
 
 -- colorscheme
---config.color_scheme = "Tokyo Night"
---config.color_scheme = "Kanagawa (Gogh)"
 local CS = {
   wsl = "Tokyo Night",
+  ssh = "Catppucin Mocha",
   cmd = "Ayu Dark (Gogh)",
   other = "Kanagawa (Gogh)",
 }
@@ -50,6 +49,18 @@ local BG = {
   wsl = {
     {
       source = { File = home .. "/dotfiles/pictures/mt_fuji.jpg" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.8,
+      width = "100%",
+      height = "100%",
+    },
+  },
+  ssh = {
+    {
+      source = { File = home .. "/dotfiles/pictures/grape.jpg" },
       opacity = 1.0,
     },
     {
@@ -114,20 +125,55 @@ wezterm.on("update-status", function(window, pane)
     if title:find("wslhost.exe") then
        background = BG.wsl
        color_scheme = CS.wsl
+    elseif title:find("@") then
+       background = BG.ssh
+       color_scheme = CS.ssh
     elseif title:find("cmd.exe") then
        background = BG.cmd
        color_scheme = CS.cmd
     end
-    window:set_config_overrides({ background = background, color_scheme = color_scheme })
+    window:set_config_overrides({
+      background = background,
+      color_scheme = color_scheme,
+    })
   end
 end)
 
+-- launch menu when start up window
 wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
   window:gui_window():perform_action(
     act.ShowLauncherArgs { flags = 'LAUNCH_MENU_ITEMS' },
     pane
   )
+end)
+
+-- format tab (change color of active tab)
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local bg = "#222222"
+  local fg = "#AAAAAA"
+  local title = tab.active_pane.title
+  title = title:gsub(".*[\\/]", "")  -- delete from start to last separator
+  title = title:gsub("%.exe$", "")  -- delete last .exe
+
+  -- active tab
+  if tab.is_active then
+    bg = "#755735"
+    fg = "#FFFFFF"
+    if title:find("@") then
+      bg = "#4c335c"  -- ssh connection
+    elseif title:find("wsl") then
+      bg = "#1d638f" -- wsl
+    elseif title:find("cmd") then
+      bg = "#355c33" -- cmd
+    end
+  end
+
+  return {
+    { Background = { Color = bg } },
+    { Foreground = { Color = fg } },
+    { Text = title },
+  }
 end)
 
 -- Keymaps
@@ -198,6 +244,11 @@ config.keys = {
     key = 'RightArrow',
     mods = 'CTRL|SHIFT',
     action = act{ AdjustPaneSize = {"Right", 5} },
+  },
+  {
+    key = 'D',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.ShowDebugOverlay,
   },
 }
 
