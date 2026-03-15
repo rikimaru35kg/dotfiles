@@ -17,6 +17,16 @@ set showcmd
 " 見た目系
 " Colorscheme
 colorscheme murphy
+" for transparent background
+if !has('gui_running')
+  autocmd!
+  autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
+  autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
+  autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
+  autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
+  autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
+  autocmd VimEnter,ColorScheme * highlight EndOfBuffer ctermbg=none
+endif
 " 行番号を表示
 set number
 " インデントはスマートインデント
@@ -33,13 +43,13 @@ nnoremap k gk
 " シンタックスハイライトの有効化
 syntax enable
 " background color
-set termguicolors
-highlight Normal guibg=#222222
+" set termguicolors
 " gvim window size
 if has('gui_running')
   set columns=100
   set lines=40
   set guifont=PlemolJP\ Console\ NF
+  highlight Normal guibg=#222222
 endif
 
 " Tab系
@@ -67,15 +77,17 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " Keymaps
 nnoremap m 5<C-e>
 nnoremap t 5<C-y>
-" send yank to clipboard (no yank for x)
-nnoremap y "+y
-xnoremap y "+y
-nnoremap Y "+Y
-nnoremap yy "+yy
-nnoremap x "_x
-xnoremap x "_x
-nnoremap X "_X
-xnoremap X "_X
+" send yank to clipboard (just for Windows by checking $SHELL. No yank for x)
+if !exists('$SHELL')
+  nnoremap y "+y
+  xnoremap y "+y
+  nnoremap Y "+Y
+  nnoremap yy "+yy
+  nnoremap x "_x
+  xnoremap x "_x
+  nnoremap X "_X
+  xnoremap X "_X
+endif
 " multiselect
 nmap <C-d> <C-n>
 vmap <C-d> <C-n>
