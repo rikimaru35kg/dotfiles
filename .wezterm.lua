@@ -125,7 +125,7 @@ wezterm.on("update-status", function(window, pane)
     if title:find("wslhost.exe") then
        background = BG.wsl
        color_scheme = CS.wsl
-    elseif title:find("@") then
+    elseif title:find("@") or title:find("ssh") then
        background = BG.ssh
        color_scheme = CS.ssh
     elseif title:find("cmd.exe") then
@@ -160,7 +160,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   if tab.is_active then
     bg = "#755735"
     fg = "#FFFFFF"
-    if title:find("@") then
+    if title:find("@") or title:find("ssh") then
       bg = "#4c335c"  -- ssh connection
     elseif title:find("wsl") then
       bg = "#1d638f" -- wsl
