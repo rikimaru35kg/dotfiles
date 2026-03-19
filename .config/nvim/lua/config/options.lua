@@ -23,3 +23,11 @@ vim.g.clipboard = {
   cache_enabled = 0,
 }
 
+-- markdownファイルの文字隠しを防止
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "markdown_inline" },
+  callback = function()
+    vim.opt_local.conceallevel = 0
+  end,
+})
+

@@ -13,6 +13,7 @@ alias ta='tmux a -t'
 alias tk='tmux kill-session -t'
 alias tkill='tmux kill-server'
 alias tig='tig --all'
+alias ke='taskkill.exe /IM EXCEL.EXE /F'
 function c() {
   if command -v win32yank.exe >/dev/null 2>&1; then
     win32yank.exe -i --crlf < "$1"
@@ -47,6 +48,16 @@ function rmelse() {
     find "$dir" ! -name "$ptrn" -type f -exec rm -rf {} +
     echo "rm executed."
   fi
+}
+# Start-Process by powershell.exe
+function sp() {
+  file="$1"
+  if [[ -z "$file" ]]; then
+    echo "Please use like this: sp <filepath>" >&2
+    return 1
+  fi
+  winpath="$(wslpath -w "$file")"
+  powershell.exe -Command "Start-Process -FilePath '$winpath'"
 }
 function smount() {
   local src="$1" dst="$2" fstype

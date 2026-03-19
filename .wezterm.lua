@@ -1,6 +1,7 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 local config = wezterm.config_builder()
+local default_keys = wezterm.gui.default_key_tables()
 
 config.automatically_reload_config = true
 config.font_size = 13
@@ -265,6 +266,61 @@ config.keys = {
     mods = 'CTRL',
     action = act.ResetFontSize,
   },
+}
+
+local function close_copy_mode()
+    return act.Multiple({
+        act.CopyMode('ClearSelectionMode'),
+        act.CopyMode('ClearPattern'),
+        act.CopyMode('Close'),
+    })
+end
+local function copy_to()
+    return act.Multiple({
+        act.CopyTo('Clipboard'),
+        act.CopyMode('ClearSelectionMode'),
+        act.CopyMode('ClearPattern'),
+        act.CopyMode('Close'),
+    })
+end
+local function next_match(int)
+    local m = act.CopyMode('NextMatch')
+    if int == -1 then
+        m = act.CopyMode('PriorMatch')
+    end
+    return act.Multiple({ m, act.CopyMode('ClearSelectionMode') })
+end
+
+local function extend_keys(target, source)
+  local map = {}
+  for _, k in ipairs(target) do
+    map[k.key .. (k.mods or '')] = k
+  end
+  for _, k in ipairs(source) do
+    map[k.key .. (k.mods or '')] = k
+  end
+  local result = {}
+  for _, v in pairs(map) do table.insert(result, v) end
+  return result
+end
+
+config.key_tables = {
+    copy_mode = extend_keys(default_keys.copy_mode, {
+        { key = 'q', mods = 'NONE', action = close_copy_mode() },
+        { key = 'y', mods = 'NONE', action = copy_to() },
+        { key = 'Escape', mods = 'NONE', action = close_copy_mode() },
+        { key = '/', mods = 'NONE', action = act.Multiple({
+                act.CopyMode('ClearPattern'),
+                act.Search({ CaseInSensitiveString = '' }),
+            }),
+        },
+        { key = 'n', mods = 'NONE', action = next_match(1) },
+        { key = 'N', mods = 'NONE', action = next_match(-1) },
+    }),
+    search_mode = {
+        { key = 'Escape', mods = 'NONE', action = act.ActivateCopyMode },
+        { key = 'Enter', mods = 'NONE', action = act.ActivateCopyMode },
+    },
 }
 
 return config
