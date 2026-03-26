@@ -31,3 +31,28 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Dockerファイルの文字隠しを防止
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dockerfile",
+  callback = function()
+    vim.opt_local.conceallevel = 0
+  end,
+})
+
+-- エラー・警告による下線を消す
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    for _, hl in ipairs({
+      "DiagnosticUnderlineError",
+      "DiagnosticUnderlineWarn",
+      "DiagnosticUnderlineInfo",
+      "DiagnosticUnderlineHint",
+    }) do
+      vim.api.nvim_set_hl(0, hl, {
+        underline = false,
+        undercurl = false,
+      })
+    end
+  end,
+})
+

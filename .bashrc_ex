@@ -120,3 +120,7 @@ alias b='python3 get_binary_number.py'
 alias digit='py gen_calc_num_digit.py'
 alias fact='py gen_factorial.py'
 
+# UID,GID for docker compose
+[[ -z $UID ]] && export UID=$(id -u)
+[[ -z $GID ]] && export GID=$(id -g)
+
