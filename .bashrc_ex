@@ -121,6 +121,8 @@ alias digit='py gen_calc_num_digit.py'
 alias fact='py gen_factorial.py'
 
 # UID,GID for docker compose
-[[ -z $UID ]] && export UID=$(id -u)
-[[ -z $GID ]] && export GID=$(id -g)
+[[ -z ${UID:-} ]] && UID=$(id -u)
+[[ -z ${GID:-} ]] && GID=$(id -g)
+export UID
+export GID
 
