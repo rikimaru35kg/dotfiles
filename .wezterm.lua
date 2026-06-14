@@ -266,6 +266,16 @@ config.keys = {
     mods = 'CTRL',
     action = act.ResetFontSize,
   },
+  {
+    key = 'LeftBracket',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    key = 'RightBracket',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.ActivateTabRelative(1),
+  },
 }
 
 local function close_copy_mode()

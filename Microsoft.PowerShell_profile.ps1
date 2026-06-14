@@ -12,4 +12,4 @@ function find {
         [string]$name = "*")
   Get-ChildItem -Path $path -Recurse -Filter $name
 }
-
+function su {Start-Process powershell -Verb RunAs }
