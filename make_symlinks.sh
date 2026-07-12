@@ -4,7 +4,7 @@ set -euo pipefail
 mkdir -p $HOME/.config
 
 # setting files and directories
-settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf .config/nvim)
+settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf .config/nvim .config/opencode/opencode.jsonc)
 
 for setting in "${settings[@]}"; do
   src="$HOME/dotfiles/$setting"  # real file
@@ -31,11 +31,22 @@ if ! grep -Fxq "$read_bashrc_ex" "$HOME/.bashrc"; then
   } >> "$HOME/.bashrc"
 fi
 
-# make symbolic links to vscode snippets
-read -p "Input your username of Windows: " win_username
-snippets_dirpath="/mnt/c/Users/$win_username/AppData/Roaming/Code/User/snippets"
+# make symbolic links to vscode snippets (for WSL2)
+read -p "Enter your Windows username: " win_username
+if [[ ! -d "/mnt/c/Users/${win_username}" ]]; then
+  echo "Either this is not a WSL environment or the Windows username is incorrect."
+  echo "The specified Windows username is: ${win_username}"
+  echo "Skipping creation of symbolic links to Windows directories."
+  return 0
+fi
+linked_path="/mnt/c/Users/${win_username}/AppData/Roaming/Code/User/snippets"
 link_path="$HOME/dotfiles/.config/nvim/snippets"
 # delete if exists or broken link
 [[ -e "$link_path" || -L "$link_path" ]] && rm -rf -- "$link_path"
-ln -s "$snippets_dirpath" "$link_path"
+[[ -d "$linked_path" ]] && ln -s -- "$linked_path" "$link_path"
+
+# make symbolic links to windows desktop (for WSL2)
+linked_path="/mnt/c/Users/$win_username/Desktop"
+link_path="$HOME/desk"
+[[ -e "$link_path" || -L "$link_path" ]] || ln -s -- "$linked_path" "$link_path"
 

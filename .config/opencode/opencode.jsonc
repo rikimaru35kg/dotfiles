@@ -1,0 +1,65 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "websearch": "deny",
+    "webfetch": "deny",
+    "bash": {
+      "*": "ask",
+      "ls *": "allow",
+      "ls -la *": "allow",
+      "df *": "allow",
+      "du *": "allow",
+      "which *": "allow",
+      "find *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow",
+      "diff *": "allow",
+      "pwd": "allow",
+      "rg *": "allow",
+      "git log *": "allow",
+      "git status *": "allow",
+      "git diff *": "allow",
+      "git show *": "allow",
+      "git branch *": "allow",
+      "git tag *": "allow",
+      "git ls-files *": "allow",
+      "git push *": "deny",
+      "git add *": "deny",
+      "git commit *": "deny",
+      "git merge *": "deny",
+      "git reset *": "deny",
+      "git rebase *": "deny",
+      "chmod *": "deny",
+      "chown *": "deny",
+      "mv *": "deny",
+      "cp *": "deny",
+      "rm *": "deny",
+    },
+    "external_directory": "ask",
+    "doom_loop": "ask"
+  },
+  "model": "local/my-model",
+  "watcher": {
+    "ignore": [
+      ".git/**",
+      "__pycache__/**"
+    ]
+  },
+  "provider": {
+    "local": {
+      "name": "llama.cpp (local)",
+      "options": {
+        "baseURL": "http://localhost:8300/v1",
+        "apiKey": "dummy"
+      },
+      "models": {
+        "my-model": {
+          "name": "my-model",
+        }
+      }
+    }
+  }
+}
+

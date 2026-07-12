@@ -1,6 +1,6 @@
 # my aliases & functions
 alias ll='ls -alhF'
-alias rm='rm -i'
+alias rm='rm -iv'
 alias ps='ps aux'
 alias ga='git add -A'
 alias gc='git commit -m'
@@ -15,6 +15,8 @@ alias tk='tmux kill-session -t'
 alias tkill='tmux kill-server'
 alias tig='tig --all'
 alias ke='taskkill.exe /IM EXCEL.EXE /F'
+alias qwen='source ~/projects/llama-options/start.sh ~/projects/llama.cpp/models/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf'
+alias ornith='source ~/projects/llama-options/start.sh ~/projects/llama.cpp/models/ornith-1.0-35b-Q4_K_M.gguf'
 function c() {
   if command -v win32yank.exe >/dev/null 2>&1; then
     win32yank.exe -i --crlf < "$1"
@@ -83,11 +85,6 @@ function smount() {
   fi
 }
 
-# history
-HISTSIZE=100000
-bind '"\C-n": history-search-forward'
-bind '"\C-p": history-search-backward'
-
 # python interactive
 [ -f "$HOME/.pythonrc.py" ] && export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
@@ -103,7 +100,18 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 
 # starship
+# [CAUTION] this statement clears PROMPT_COMMAND!
+# [CAUTION] Set PROMPT_COMMAND after this statement if necessary.
 command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+# history
+# [CAUTION] Must comment out HISTSIZE,HISTFILESIZE in ~/.bashrc
+shopt -s histappend
+PROMPT_COMMAND="history -a;history -n${PROMPT_COMMAND:+;${PROMPT_COMMAND}}"
+HISTSIZE=100000
+HISTFILESIZE=100000
+bind '"\C-n": history-search-forward'
+bind '"\C-p": history-search-backward'
 
 # locale
 export LANG="ja_JP.UTF-8"

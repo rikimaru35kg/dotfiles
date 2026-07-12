@@ -95,8 +95,9 @@ if !exists('$SHELL')
   xnoremap x "_x
   nnoremap X "_X
   xnoremap X "_X
+  nnoremap p "*p
+  nnoremap P "*P
 endif
-" multiselect
 nmap <C-d> <C-n>
 vmap <C-d> <C-n>
 " ctrl+t -> NERTTree
