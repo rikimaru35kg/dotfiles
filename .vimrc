@@ -66,6 +66,9 @@ augroup TabByFile
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType h setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType hpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType rst setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup end
 
 " 検索系
@@ -91,6 +94,10 @@ if !exists('$SHELL')
   xnoremap y "+y
   nnoremap Y "+Y
   nnoremap yy "+yy
+  nnoremap d "+d
+  xnoremap d "+d
+  nnoremap dd "+dd
+  xnoremap dd "+dd
   nnoremap x "_x
   xnoremap x "_x
   nnoremap X "_X
