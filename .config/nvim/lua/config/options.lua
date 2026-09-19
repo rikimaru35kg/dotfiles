@@ -59,3 +59,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
+-- プロジェクトローカル設定 (.nvim.lua) を読み込む (要 :trust で許可)
+vim.o.exrc = true
+
