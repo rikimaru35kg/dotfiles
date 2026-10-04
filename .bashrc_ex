@@ -82,7 +82,7 @@ function smount() {
   sudo mkdir -p "$dst"
   # FSがvfat/exfatの場合は最強権限でmount
   if [[ $fstype == vfat || $fstype == exfat ]]; then
-    sudo mount -o uid=1000,gid=1000,fmask=000,dmask=000 "$src" "$dst"
+    sudo mount -o uid=1000,gid=1000,utf8,fmask=000,dmask=000 "$src" "$dst"
   else
     sudo mount "$src" "$dst"
   fi

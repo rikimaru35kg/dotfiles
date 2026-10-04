@@ -1,11 +1,11 @@
 ﻿#Requires AutoHotkey v2.0
 
-#HotIf WinActive("ahk_exe EXCEL.EXE") || WinActive("ahk_exe chrome.exe") || WinActive("ahk_exe POWERPNT.EXE") || WinActive("ahk_exe ApplicationFrameHost.exe")
+#HotIf WinActive("ahk_exe EXCEL.EXE") || WinActive("ahk_exe chrome.exe") || WinActive("ahk_exe POWERPNT.EXE") || WinActive("ahk_exe explorer.exe") || WinActive("ahk_exe ApplicationFrameHost.exe") || WinActive("ahk_exe OUTLOOK.EXE") || WinActive("ahk_exe ms-teams.exe")
 ; cursor movement
-^h::Send "{Left}"
-^j::Send "{Down}"
-^k::Send "{Up}"
-^l::Send "{Right}"
+^h::SendEvent "{Left}"
+^j::SendEvent "{Down}"
+^k::SendEvent "{Up}"
+^l::SendEvent "{Right}"
 
 ; search
 ^/::
@@ -26,6 +26,18 @@ LAlt & l::Send "^{PgDn}"
 ^+u::Send "^y"
 #HotIf
 
+#HotIf WinActive("ahk_exe explorer.exe")
+; tab switch
+LAlt & l::SendEvent "^{Tab}"
+LAlt & h::SendEvent "^+{Tab}"
+#HotIf
+
+#HotIf WinActive("ahk_exe POWERPNT.EXE")
+; left/right jump
+^0::Send "{Home}"
+^4::Send "{End}"
+#HotIf
+
 #HotIf WinActive("ahk_exe EXCEL.EXE")
 ; scroll
 ^f::Send "{PgDn}"
@@ -36,33 +48,42 @@ LAlt & l::Send "^{PgDn}"
 ; up/down jump
 ^p::Send "^{Up}"
 ^n::Send "^{Down}"
-; edit cell
-^i::Send "{F2}"
+#HotIf
+
+#HotIf WinActive("ahk_exe EXCEL.EXE") || WinActive("ahk_exe ms-teams.exe")
 ; goto home/end
 g_count := 0
 ^g::{
     global g_count
-
     g_count += 1
-
-    if (g_count = 2) {
-        Send "^{Home}"    ; gg
-        g_count := 0
-        return
+    if (g_count = 1) {
+        SetTimer SendEnd, -300
     }
-    SetTimer ResetG, -300
+    else if (g_count = 2) {
+        SetTimer SendEnd, 0    ; タイマーキャンセル
+        Send "^{Home}"         ; gg
+        g_count := 0
+    }
 }
-ResetG() {
+SendEnd() {
     global g_count
+
+    if (g_count = 1) {
+        Send "^{End}"
+    }
     g_count := 0
 }
-^+g::Send "^{End}"
 #HotIf
 
-#HotIf WinActive("ahk_exe chrome.EXE") || WinActive("ahk_exe POWERPNT.EXE") || WinActive("ahk_exe ApplicationFrameHost.exe")
-; scroll
-^n::Send "{PgDn}"
-^p::Send "{PgUp}"
+#HotIf WinActive("ahk_exe chrome.EXE") || WinActive("ahk_exe POWERPNT.EXE") || WinActive("ahk_exe explorer.exe") || WinActive("ahk_exe ApplicationFrameHost.exe") || WinActive("ahk_exe OUTLOOK.EXE") || WinActive("ahk_exe ms-teams.exe")
+; scroll (using SendEvent to prevent crash on RDP session)
+^n::SendEvent "{PgDn}"
+^p::SendEvent "{PgUp}"
+#HotIf
+
+#HotIf WinActive("ahk_exe EXCEL.EXE") || WinActive("ahk_exe explorer.exe")
+; edit cell/filename
+^i::Send "{F2}"
 #HotIf
 
 ; Check active window's exe file
