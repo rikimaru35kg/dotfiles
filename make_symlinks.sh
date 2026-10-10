@@ -39,7 +39,7 @@ fi
 
 # make symbolic links/copies to some files in windows' directories (for MSYS2)
 if [[ ${MSYSTEM-} == "UCRT64" ]]; then
-  settings=(.wezterm.lua .vimrc .config/starship.toml)  # files for windows' home
+  settings=(.wezterm.lua .vimrc)  # files for windows' home
   for setting in "${settings[@]}"; do
     make_symlink "$HOME/dotfiles/$setting" "/c/Users/$USER/$setting"
   done

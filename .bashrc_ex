@@ -124,6 +124,7 @@ bind '"\C-p": history-search-backward'
 if [[ $MSYSTEM == "UCRT64" ]]; then
   export PATH="$PATH:/c/Users/${USER}/AppData/Local/Programs/Microsoft VS Code/bin"
   export XDG_CONFIG_HOME="$HOME/.config"
+  export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 fi
 
 # locale
