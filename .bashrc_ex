@@ -123,6 +123,7 @@ bind '"\C-p": history-search-backward'
 # for MSYS2
 if [[ $MSYSTEM == "UCRT64" ]]; then
   export PATH="$PATH:/c/Users/${USER}/AppData/Local/Programs/Microsoft VS Code/bin"
+  export XDG_CONFIG_HOME="$HOME/.config"
 fi
 
 # locale

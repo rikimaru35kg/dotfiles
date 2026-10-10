@@ -8,20 +8,22 @@ vim.opt.scrolloff = 0
 -- LazyVim の format-on-save 全体をオフ (autosaveの場合、trueだと末尾に空行を入れられなくなるのでfalseとする)
 vim.g.autoformat = false
 
--- yankレジスタとクリップボード (windows)を共有
+-- yankレジスタとクリップボードを共有
 vim.o.clipboard = "unnamedplus"
-vim.g.clipboard = {
-  name = "win32yank-wsl",
-  copy = {
-    ["+"] = { "win32yank.exe", "-i", "--crlf" },
-    ["*"] = { "win32yank.exe", "-i", "--crlf" },
-  },
-  paste = {
-    ["+"] = { "win32yank.exe", "-o", "--lf" },
-    ["*"] = { "win32yank.exe", "-o", "--lf" },
-  },
-  cache_enabled = 0,
-}
+if vim.env.WSL_INTEROP then
+  vim.g.clipboard = {
+    name = "win32yank-wsl",
+    copy = {
+      ["+"] = { "win32yank.exe", "-i", "--crlf" },
+      ["*"] = { "win32yank.exe", "-i", "--crlf" },
+    },
+    paste = {
+      ["+"] = { "win32yank.exe", "-o", "--lf" },
+      ["*"] = { "win32yank.exe", "-o", "--lf" },
+    },
+    cache_enabled = 0,
+  }
+end
 
 -- markdownファイルの文字隠し及びスペルチェックを防止
 vim.api.nvim_create_autocmd("FileType", {
