@@ -89,8 +89,8 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 nnoremap m 5<C-e>
 nnoremap t 5<C-y>
 nnoremap U <C-r>
-" send yank to clipboard (just for Windows by checking $SHELL. No yank for x)
-if !exists('$SHELL')
+" send yank to clipboard (not for WSL2. No yank for x)
+if !exists('$WSL_INTEROP')
   nnoremap y "+y
   xnoremap y "+y
   nnoremap Y "+Y
