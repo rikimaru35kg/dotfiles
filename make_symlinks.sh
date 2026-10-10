@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mkdir -p $HOME/.config
+mkdir -p "$HOME/.config"
 
-# setting files and directories
-settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf .config/nvim .config/opencode/opencode.jsonc)
-
-for setting in "${settings[@]}"; do
-  src="$HOME/dotfiles/$setting"  # real file
-  dst="$HOME/$setting"  # symbolic link
-
+# function of making a symbolic link
+# USE ABSOLUTE PATHS FOR SAFETY!!
+make_symlink() {
+  local src="$1"
+  local dst="$2"
+  # check existence of src file/directory
+  [[ -e "$src" ]] || return 0
   # delete if exists or broken link
   [[ -e "$dst" || -L "$dst" ]] && rm -rf -- "$dst"
-
   # make parent directory of symbolic link
   mkdir -p -- "$(dirname -- "$dst")"
-
   # make symbolic link
   ln -s "$src" "$dst"
+}
+
+# make symbolic links of files and directories
+settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf .config/nvim .config/opencode/opencode.jsonc)
+for setting in "${settings[@]}"; do
+  make_symlink "$HOME/dotfiles/$setting" "$HOME/$setting"
 done
 
 # insert the line of reading .bashrc_ex to .bashrc
@@ -31,24 +35,34 @@ if ! grep -Fxq "$read_bashrc_ex" "$HOME/.bashrc"; then
   } >> "$HOME/.bashrc"
 fi
 
+# make symbolic links/copies to some files in windows' directories (for MSYS2)
+if [[ ${MSYSTEM-} == "UCRT64" ]]; then
+  settings=(.wezterm.lua .vimrc .config/starship.toml)  # files for windows' home
+  for setting in "${settings[@]}"; do
+    make_symlink "$HOME/dotfiles/$setting" "/c/Users/$USER/$setting"
+  done
+  # wezterm pictures directory
+  mkdir -p "/c/Users/$USER/dotfiles/pictures"
+  cp "$HOME"/dotfiles/pictures/* "/c/Users/$USER/dotfiles/pictures/"
+  # powershell profile
+  make_symlink "$HOME/dotfiles/Microsoft.PowerShell_profile.ps1" \
+    "/c/Users/$USER/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
+fi
+
 # make symbolic links to vscode snippets (for WSL2)
-[[ -z "$WSL_INTEROP" && -z "$WSLENV" ]] && return 0
+[[ -z "${WSL_INTEROP-}" ]] && return 0
 read -p "Enter your Windows username: " win_username
 if [[ ! -d "/mnt/c/Users/${win_username}" ]]; then
-  echo "Either this is not a WSL environment or the Windows username is incorrect."
-  echo "The specified Windows username is: ${win_username}"
+  echo "The specified Windows username (${win_username}) is incorrect."
   echo "Skipping creation of symbolic links to Windows directories."
   return 0
 fi
 # make symbolink links to vscode snippets
-linked_path="/mnt/c/Users/${win_username}/AppData/Roaming/Code/User/snippets"
-link_path="$HOME/dotfiles/.config/nvim/snippets"
-# delete if exists or broken link
-[[ -e "$link_path" || -L "$link_path" ]] && rm -rf -- "$link_path"
-[[ -d "$linked_path" ]] && ln -s -- "$linked_path" "$link_path"
-
+src="/mnt/c/Users/${win_username}/AppData/Roaming/Code/User/snippets"
+dst="$HOME/dotfiles/.config/nvim/snippets"
+make_symlink "$src" "$dst"
 # make symbolic links to windows desktop (for WSL2)
-linked_path="/mnt/c/Users/$win_username/Desktop"
-link_path="$HOME/desk"
-[[ -e "$link_path" || -L "$link_path" ]] || ln -s -- "$linked_path" "$link_path"
+src="/mnt/c/Users/${win_username}/Desktop"
+dst="$HOME/desk"
+make_symlink "$src" "$dst"
 
