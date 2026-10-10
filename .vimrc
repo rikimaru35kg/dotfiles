@@ -88,6 +88,7 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " Keymaps
 nnoremap m 5<C-e>
 nnoremap t 5<C-y>
+nnoremap U <C-r>
 " send yank to clipboard (just for Windows by checking $SHELL. No yank for x)
 if !exists('$SHELL')
   nnoremap y "+y

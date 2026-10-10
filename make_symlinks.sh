@@ -32,6 +32,7 @@ if ! grep -Fxq "$read_bashrc_ex" "$HOME/.bashrc"; then
 fi
 
 # make symbolic links to vscode snippets (for WSL2)
+[[ -z "$WSL_INTEROP" && -z "$WSLENV" ]] && return 0
 read -p "Enter your Windows username: " win_username
 if [[ ! -d "/mnt/c/Users/${win_username}" ]]; then
   echo "Either this is not a WSL environment or the Windows username is incorrect."
@@ -39,6 +40,7 @@ if [[ ! -d "/mnt/c/Users/${win_username}" ]]; then
   echo "Skipping creation of symbolic links to Windows directories."
   return 0
 fi
+# make symbolink links to vscode snippets
 linked_path="/mnt/c/Users/${win_username}/AppData/Roaming/Code/User/snippets"
 link_path="$HOME/dotfiles/.config/nvim/snippets"
 # delete if exists or broken link

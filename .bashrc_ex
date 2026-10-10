@@ -116,6 +116,11 @@ HISTFILESIZE=100000
 bind '"\C-n": history-search-forward'
 bind '"\C-p": history-search-backward'
 
+# for MSYS2
+if [[ $MSYSTEM == "UCRT64" ]]; then
+  export PATH="$PATH:/c/Users/${USER}/AppData/Local/Programs/Microsoft VS Code/bin"
+fi
+
 # locale
 export LANG="ja_JP.UTF-8"
 export LC_CTYPE="ja_JP.UTF-8"

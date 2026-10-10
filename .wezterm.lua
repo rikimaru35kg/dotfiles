@@ -22,7 +22,8 @@ config.window_background_gradient = {
 }
 
 -- default program
-config.default_prog = { "powershell.exe", "-NoLogo" }
+config.default_prog = { "C:/msys64/usr/bin/env.exe", "MSYSTEM=UCRT64", "CHERE_INVODING=1",
+                        "/usr/bin/bash", "--login" }
 
 -- Ligature OFF
 config.harfbuzz_features = {
@@ -40,9 +41,10 @@ local CS = {
   wsl = "Tokyo Night",
   ssh = "Catppuccin Mocha",
   cmd = "Ayu Dark (Gogh)",
-  other = "Kanagawa (Gogh)",
+  pwr = "Kanagawa (Gogh)",
+  def = "Catppuccin Frappe",
 }
-config.color_scheme = CS.other
+config.color_scheme = CS.def
 
 -- Background
 home = os.getenv("HOME") or os.getenv("USERPROFILE")
@@ -83,7 +85,7 @@ local BG = {
       height = "100%",
     },
   },
-  other = {
+  pwr = {
     {
       source = { File = home .. "/dotfiles/pictures/snow_tree.jpg" },
       opacity = 1.0,
@@ -95,20 +97,40 @@ local BG = {
       height = "100%",
     },
   },
+  def = {
+    {
+      source = { File = home .. "/dotfiles/pictures/cyber.jpg" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.8,
+      width = "100%",
+      height = "100%",
+    },
+  },
 }
-config.background = BG.other
+config.background = BG.def
 
 -- Make new tab with shell options
 config.launch_menu = {
   {
-    label = 'Windows PowerShell',
-    args = { 'powershell.exe', '-NoLogo' },
+    label = 'MSYS2 bash',
+    args = { "C:/msys64/usr/bin/env.exe", "MSYSTEM=UCRT64", "CHERE_INVODING=1",
+                            "/usr/bin/bash", "--login" }
   },
   {
     label = 'WSL Ubuntu',
     args = { 'wsl.exe', '--cd', '~'},
   },
-  { label = 'Command Prompt', args = { 'cmd.exe' } },
+  {
+    label = 'Windows PowerShell',
+    args = { 'powershell.exe', '-NoLogo' },
+  },
+  {
+    label = 'Command Prompt',
+    args = { 'cmd.exe' }
+  },
 }
 
 -- Change the window setting depending on tab-name
@@ -121,8 +143,8 @@ wezterm.on("update-status", function(window, pane)
 
   if last_title ~= title then
     last_title = title
-    local background = BG.other
-    local color_scheme = CS.other
+    local background = BG.def
+    local color_scheme = CS.def
     if title:find("wslhost.exe") then
        background = BG.wsl
        color_scheme = CS.wsl
@@ -132,6 +154,9 @@ wezterm.on("update-status", function(window, pane)
     elseif title:find("cmd.exe") then
        background = BG.cmd
        color_scheme = CS.cmd
+    elseif title:find("power") then
+       background = BG.pwr
+       color_scheme = CS.pwr
     end
     window:set_config_overrides({
       background = background,
