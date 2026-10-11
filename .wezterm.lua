@@ -220,14 +220,14 @@ config.keys = {
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
   {
-    key = '[',
-    mods = 'CTRL|ALT',
+    key = 'LeftBracket',
+    mods = 'CTRL|SHIFT',
     action = act.SplitPane { direction = "Right", size = { Percent = 50 },
     },
   },
   {
-    key = ']',
-    mods = 'CTRL|ALT',
+    key = 'RightBracket',
+    mods = 'CTRL|SHIFT',
     action = act.SplitPane { direction = "Down", size = { Percent = 50 },
     },
   },
@@ -292,12 +292,12 @@ config.keys = {
     action = act.ResetFontSize,
   },
   {
-    key = 'LeftBracket',
+    key = '<',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateTabRelative(-1),
   },
   {
-    key = 'RightBracket',
+    key = '>',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateTabRelative(1),
   },
