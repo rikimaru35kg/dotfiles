@@ -149,3 +149,20 @@ alias fact='py gen_factorial.py'
 export UID
 export GID
 
+# WezTerm user variables
+wezterm_set_var() {
+    local name="$1"
+    local value="$2"
+    local encoded
+
+    encoded=$(printf '%s' "$value" | base64 | tr -d '\n')
+    printf '\033]1337;SetUserVar=%s=%s\007' "$name" "$encoded"
+}
+if [[ -n "${WSL_INTEROP-}" ]]; then
+  wezterm_set_var SHELL_TYPE "wsl"
+elif [[ "${MSYSTEM-}" == "UCRT64" ]]; then
+  wezterm_set_var SHELL_TYPE "msys2"
+else
+  wezterm_set_var SHELL_TYPE "other"
+fi
+

@@ -49,9 +49,9 @@ config.color_scheme = CS.def
 -- Background
 home = os.getenv("HOME") or os.getenv("USERPROFILE")
 local BG = {
-  wsl = {
+  def = {
     {
-      source = { File = home .. "/dotfiles/pictures/mt_fuji.jpg" },
+      source = { File = home .. "/dotfiles/pictures/grape.jpg" },
       opacity = 1.0,
     },
     {
@@ -61,9 +61,9 @@ local BG = {
       height = "100%",
     },
   },
-  ssh = {
+  wsl = {
     {
-      source = { File = home .. "/dotfiles/pictures/grape.jpg" },
+      source = { File = home .. "/dotfiles/pictures/mt_fuji.jpg" },
       opacity = 1.0,
     },
     {
@@ -97,7 +97,7 @@ local BG = {
       height = "100%",
     },
   },
-  def = {
+  msys2 = {
     {
       source = { File = home .. "/dotfiles/pictures/cyber.jpg" },
       opacity = 1.0,
@@ -126,43 +126,41 @@ config.launch_menu = {
   {
     label = 'Windows PowerShell',
     args = { 'powershell.exe', '-NoLogo' },
+    cwd = home,
   },
   {
     label = 'Command Prompt',
-    args = { 'cmd.exe' }
+    args = { 'cmd.exe' },
+    cwd = home,
   },
 }
 
 -- Change the window setting depending on tab-name
-local last_title = ""
+local last_st = ""
 wezterm.on("update-status", function(window, pane)
-  local title = pane:get_title()
-  if title == "Launcher" then return end
-  if title == "Debug" then return end
-  if title == "wezterm" then return end
-
-  if last_title ~= title then
-    last_title = title
-    local background = BG.def
-    local color_scheme = CS.def
-    if title:find("wslhost.exe") then
-       background = BG.wsl
-       color_scheme = CS.wsl
-    elseif title:find("@") or title:find("ssh") then
-       background = BG.ssh
-       color_scheme = CS.ssh
-    elseif title:find("cmd.exe") then
-       background = BG.cmd
-       color_scheme = CS.cmd
-    elseif title:find("power") then
-       background = BG.pwr
-       color_scheme = CS.pwr
-    end
-    window:set_config_overrides({
-      background = background,
-      color_scheme = color_scheme,
-    })
+  local st = pane:get_user_vars().SHELL_TYPE
+  if last_st == st then return end
+  last_st = st
+  
+  local background = BG.def
+  local color_scheme = CS.def
+  if st == "wsl" then
+    background = BG.wsl
+    color_scheme = CS.wsl
+  elseif st == "msys2" then
+    background = BG.msys2
+    color_scheme = CS.msys2
+  elseif st == "powershell" then
+    background = BG.pwr
+    color_scheme = CS.pwr
+  elseif st == "cmd" then
+    background = BG.cmd
+    color_scheme = CS.cmd
   end
+  window:set_config_overrides({
+    background = background,
+    color_scheme = color_scheme,
+  })
 end)
 
 -- launch menu when start up window
