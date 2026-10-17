@@ -51,6 +51,30 @@ home = os.getenv("HOME") or os.getenv("USERPROFILE")
 local BG = {
   def = {
     {
+      source = { File = home .. "/dotfiles/pictures/forest.png" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.0,
+      width = "100%",
+      height = "100%",
+    },
+  },
+  cmd = {  -- not used now
+    {
+      source = { File = home .. "/dotfiles/pictures/snow_tree.jpg" },
+      opacity = 1.0,
+    },
+    {
+      source = { Color = "#000000" },
+      opacity = 0.8,
+      width = "100%",
+      height = "100%",
+    },
+  },
+  pwr = {
+    {
       source = { File = home .. "/dotfiles/pictures/grape.jpg" },
       opacity = 1.0,
     },
@@ -64,30 +88,6 @@ local BG = {
   wsl = {
     {
       source = { File = home .. "/dotfiles/pictures/mt_fuji.jpg" },
-      opacity = 1.0,
-    },
-    {
-      source = { Color = "#000000" },
-      opacity = 0.8,
-      width = "100%",
-      height = "100%",
-    },
-  },
-  cmd = {
-    {
-      source = { File = home .. "/dotfiles/pictures/forest.png" },
-      opacity = 1.0,
-    },
-    {
-      source = { Color = "#000000" },
-      opacity = 0.0,
-      width = "100%",
-      height = "100%",
-    },
-  },
-  pwr = {
-    {
-      source = { File = home .. "/dotfiles/pictures/snow_tree.jpg" },
       opacity = 1.0,
     },
     {
