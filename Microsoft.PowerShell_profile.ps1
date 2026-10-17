@@ -13,3 +13,12 @@ function find {
   Get-ChildItem -Path $path -Recurse -Filter $name
 }
 function su {Start-Process powershell -Verb RunAs }
+# WezTerm に user variable を送信
+if ($env:TERM_PROGRAM -eq 'WezTerm' -or $env:WEZTERM_PANE) {
+  $value = [Convert]::ToBase64String(
+    [System.Text.Encoding]::UTF8.GetBytes('powershell')
+  )
+  $esc = [char]27
+  $bel = [char]7
+  [Console]::Write("${esc}]1337;SetUserVar=SHELL_TYPE=${value}${bel}")
+}
