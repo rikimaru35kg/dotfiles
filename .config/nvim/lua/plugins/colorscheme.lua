@@ -39,6 +39,11 @@ return {
 
         -- 未定義変数をグレーに (デフォルトは暗すぎる)
         hl.DiagnosticUnnecessary = { fg = "#888888", undercurl = false, italic = false, strikethrough = false }
+
+        -- 行番号上下の色 (暗めの青)
+        hl.LineNrAbove = { fg = "#4880d5" }
+        hl.LineNrBelow = { fg = "#4880d5" }
+
       end,
     },
   },

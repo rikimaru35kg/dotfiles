@@ -14,8 +14,6 @@ ok(vim.keymap.del, "n", "<S-l>")
 -- my keymaps
 vim.keymap.set("n", "m", "5<C-e>", { noremap = true, silent = true, desc = "Scroll down 5 lines" })
 vim.keymap.set("n", "t", "5<C-y>", { noremap = true, silent = true, desc = "Scroll up 5 lines" })
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "U", "<C-r>")
 
 -- x/X で削除してもクリップボードに入れない（黒穴レジスタへ）

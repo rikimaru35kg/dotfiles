@@ -21,8 +21,10 @@ make_symlink() {
 }
 
 # make symbolic links of files and directories
-settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf .config/nvim .config/opencode/opencode.jsonc)
+settings=(.pythonrc.py .tmux.conf .vimrc .tigrc .config/starship.toml .config/btop/btop.conf
+          .config/nvim .config/yazi/yazi.toml .config/opencode/opencode.jsonc)
 for setting in "${settings[@]}"; do
+  mkdir -p -- "$(dirname -- "$HOME/$setting")"  # make parent directory of symbolic link
   make_symlink "$HOME/dotfiles/$setting" "$HOME/$setting"
 done
 

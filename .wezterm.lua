@@ -6,6 +6,7 @@ local default_keys = wezterm.gui.default_key_tables()
 config.automatically_reload_config = true
 config.font_size = 13
 config.window_close_confirmation = "NeverPrompt"
+config.window_decorations = "RESIZE"
 config.font = wezterm.font_with_fallback({
  "PlemolJP Console NF",
  "Segoe UI Emoji",      -- Windows 標準のカラー絵文字にフォールバック
@@ -61,7 +62,7 @@ local BG = {
       height = "100%",
     },
   },
-  cmd = {  -- not used now
+  pwr = {
     {
       source = { File = home .. "/dotfiles/pictures/snow_tree.jpg" },
       opacity = 1.0,
@@ -73,7 +74,7 @@ local BG = {
       height = "100%",
     },
   },
-  pwr = {
+  ssh = {
     {
       source = { File = home .. "/dotfiles/pictures/grape.jpg" },
       opacity = 1.0,
@@ -153,9 +154,9 @@ wezterm.on("update-status", function(window, pane)
   elseif st == "powershell" then
     background = BG.pwr
     color_scheme = CS.pwr
-  elseif st == "cmd" then
-    background = BG.cmd
-    color_scheme = CS.cmd
+  elseif st == "ssh" then
+    background = BG.ssh
+    color_scheme = CS.ssh
   end
   window:set_config_overrides({
     background = background,
@@ -175,21 +176,24 @@ end)
 -- format tab (change color of active tab)
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
   local bg = "#222222"
-  local fg = "#AAAAAA"
+  local fg = "#FFFFFF"
   local title = tab.active_pane.title
   title = title:gsub(".*[\\/]", "")  -- delete from start to last separator
   title = title:gsub("%.exe$", "")  -- delete last .exe
 
   -- active tab
   if tab.is_active then
-    bg = "#755735"
-    fg = "#FFFFFF"
-    if title:find("@") or title:find("ssh") then
-      bg = "#4c335c"  -- ssh connection
-    elseif title:find("wsl") then
-      bg = "#1d638f" -- wsl
+    local st = tab.active_pane.user_vars.SHELL_TYPE
+    if st == "msys2" then
+      bg = "#5c4972"
+    elseif st == "ssh" then
+      bg = "#A96269"
+    elseif st == "powershell" then
+      bg = "#6b5748"
+    elseif st == "wsl" then
+      bg = "#74c7ec"
     elseif title:find("cmd") then
-      bg = "#355c33" -- cmd
+      bg = "#355c33"
     end
   end
 
